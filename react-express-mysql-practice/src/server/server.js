@@ -41,22 +41,36 @@ app.post('/write', (req, res) => {
   
   connection.query(sql, (err, result) => {
     if(err) throw err;
-    console.log('자료 1개를 저장하였습니다')
+    console.log('게시글을 등록하였습니다.')
   })
 })
 
 // 게시글 삭제
-app.delete('/delete', (req, res) => {
-  let sql = `delete from react_test.board where (id=${id})`
+app.delete('/delete/:id', (req, res) => {
+  let sql = `delete from react_test.board where (id=${req.params.id})`
 
   connection.query(sql, (err, result) => {
     if(err) throw err;
-    res.send('삭제되었습니다.')
-    console.log('삭제되었습니다.')
+    console.log('게시글이 삭제되었습니다.')
   })
 })
 
 // 게시글 수정
+app.post('/update', (req, res) => {
+  const id = req.body.id;
+  const name = req.body.userName;
+  const title = req.body.title;
+  const content = req.body.content;
+
+  let sql = `update react_test.board 
+  set userName='${name}', title='${title}', content='${content}'
+  where id=${id}`
+  
+  connection.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log('게시글을 수정하였습니다.')
+  })
+})
 
 app.listen(PORT, () => {
   console.log(`Server On : http://localhost:${PORT}`)

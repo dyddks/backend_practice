@@ -1,6 +1,5 @@
 import { BoradList } from '../component/board/BoardList.js';
 import { Write } from '../component/board/Write.js';
-import { Detail } from '../component/board/Detail.js';
 import styled from '@emotion/styled';
 
 const Container = styled.div`
