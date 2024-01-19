@@ -6,6 +6,7 @@ const app = express()
 const PORT = 4000
 
 app.use(cors())
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 
 // 게시글 목록 조회
@@ -69,6 +70,22 @@ app.post('/update', (req, res) => {
   connection.query(sql, (err, result) => {
     if(err) throw err;
     console.log('게시글을 수정하였습니다.')
+  })
+})
+
+// 회원가입
+app.post('/user/register', (req, res) => {
+  const userName = req.body.userName;
+  const phone = req.body.phone;
+  const email = req.body.email;
+  const password = req.body.password;
+
+  let sql = `insert into user(userName, phone, email, password)
+  value('${userName}','${phone}','${email}','${password}')`
+  
+  connection.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log('회원가입이 완료되었습니다.')
   })
 })
 
