@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Register } from "../component/user/Register";
+import { Unregister } from "../component/user/Unregister";
 
 const Container = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ export const UnregisterPage = () => {
     <Container>
       <h1>회원탈퇴</h1>
       <Hr></Hr>
-      <Register></Register>
+      <Unregister></Unregister>
     </Container>
   )
 }
