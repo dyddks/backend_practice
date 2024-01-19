@@ -22,15 +22,13 @@ export const Login = () => {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
 
-  const register = () => {
-    axios.post('/login', {
+  const login = () => {
+    axios.post('/user/login', {
       email: email,
-      pw: pw
+      password: pw
     })
     .then((result) => {
-      if (result.status === 200) {
-        alert(`${result.data.name}님 환영합니다.`)
-      }
+      alert(`${result.data[0].userName}님 환영합니다.`)
     })
     .catch((err) => {
       alert('잠시후 다시 시도해주세요.')
@@ -41,7 +39,7 @@ export const Login = () => {
     <Container>
       <Input type="text" placeholder="이메일" onChange={(e) => setEmail(e.target.value)}></Input>
       <Input type="password" placeholder="비밀번호" onChange={(e) => setPw(e.target.value)}></Input>
-      <button onClick={register}>로그인</button>
+      <button onClick={login}>로그인</button>
       <button onClick={() => {nav('/')}}>메인으로</button>
     </Container>
   )
