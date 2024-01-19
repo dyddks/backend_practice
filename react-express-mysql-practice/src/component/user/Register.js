@@ -26,13 +26,13 @@ export const Register = () => {
 
   const register = () => {
     axios.post('/user/register', {
-      name: name,
+      userName: name,
       phone: phone,
       email: email,
-      pw: pw
+      password: pw
     })
     .then((result) => {
-      if (result === 1) {
+      if (result.data.status === 1) {
         alert('회원가입을 축하합니다.')
       }
     })
