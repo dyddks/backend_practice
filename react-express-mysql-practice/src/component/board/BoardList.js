@@ -1,6 +1,6 @@
 import axios from "axios";
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BoardItem } from "./BoardItem";
 
 const Container = styled.div`
@@ -15,16 +15,15 @@ const Container = styled.div`
 export const BoradList = () => {
   const [items, setItems] = useState([]);
 
-  const click = () => {
+  useEffect(() => {
     axios.get('/boardList')
     .then((result) => {
       setItems(result.data)
     })
-  }
+  }, [])
 
   return(
     <Container>
-      <button onClick={click}>목록 불러오기</button>
       {items.map((item) => (
         <BoardItem
         key={item.id}
