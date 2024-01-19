@@ -90,6 +90,19 @@ app.post('/user/register', (req, res) => {
   })
 })
 
+// 로그인
+app.post('/user/login', (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  let sql = `select * from user where email='${email}' and password='${password}'`
+  
+  connection.query(sql, (err, result) => {
+    if(err) throw err;
+    res.send(result);
+  })
+})
+
 app.listen(PORT, () => {
   console.log(`Server On : http://localhost:${PORT}`)
 })
