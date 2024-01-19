@@ -85,6 +85,7 @@ app.post('/user/register', (req, res) => {
   
   connection.query(sql, (err, result) => {
     if(err) throw err;
+    res.send({status: 1})
     console.log('회원가입이 완료되었습니다.')
   })
 })
