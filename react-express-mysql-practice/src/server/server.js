@@ -103,6 +103,22 @@ app.post('/user/login', (req, res) => {
   })
 })
 
+// 회원탈퇴
+app.delete('/user/unregister', (req, res) => {
+  const userName = req.body.userName;
+  const phone = req.body.phone;
+  const email = req.body.email;
+  const password = req.body.password;
+
+  let sql = `delete from user where userName='${userName}' and phone='${phone}' and email='${email}' and password='${password}'`
+
+  connection.query(sql, (err, result) => {
+    if (err) throw err;
+    
+    res.send(result.affectedRows)
+  })
+})
+
 app.listen(PORT, () => {
   console.log(`Server On : http://localhost:${PORT}`)
 })
