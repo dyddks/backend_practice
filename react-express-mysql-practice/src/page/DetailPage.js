@@ -5,7 +5,7 @@ const Container = styled.div`
   display: flex;
   width: 100%;
   height: auto;
-  margin: 0 auto;
+  margin: 50px auto;
 `;
 
 export const DetailPage = () => {

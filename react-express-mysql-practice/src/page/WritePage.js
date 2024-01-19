@@ -1,5 +1,5 @@
+import { Write } from '../component/board/Write.js';
 import styled from '@emotion/styled';
-import { Update } from '../component/board/Update';
 
 const Container = styled.div`
   display: flex;
@@ -7,19 +7,19 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   height: auto;
-  margin: 0px auto;
+  margin: 0 auto;
 `;
 
 const Hr = styled.hr`
   width: 90%;
 `;
 
-export const UpdatePage = () => {
+export const WritePage = () => {
   return (
     <Container>
-      <h1>수정하기</h1>
+      <h1>게시글 작성</h1>
       <Hr></Hr>
-      <Update></Update>
+      <Write></Write>
     </Container>
   );
 }
