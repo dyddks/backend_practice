@@ -25,6 +25,7 @@ export const MainPage = () => {
       <button onClick={() => {nav('/login')}}>로그인</button>
       <button onClick={() => {nav('/unregister')}}>회원탈퇴</button>
       <button onClick={() => {nav('/board')}}>게시판</button>
+      <button onClick={() => {nav('/user/mypage')}}>마이페이지</button>
     </Container>
   );
 }
