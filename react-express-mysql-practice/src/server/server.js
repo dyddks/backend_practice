@@ -119,6 +119,22 @@ app.delete('/user/unregister', (req, res) => {
   })
 })
 
+// 회원정보 수정
+
+app.post('/user/update', (req, res) => {
+  const userName = req.body.userName;
+  const phone = req.body.phone;
+  const password = req.body.password;
+
+  let sql = `update user set userName='${userName}', phone='${phone}', password='${password}'`
+
+  connection.query(sql, (err, result) => {
+    if (err) throw err;
+
+    res.send({status: 1})
+  })
+})
+
 app.listen(PORT, () => {
   console.log(`Server On : http://localhost:${PORT}`)
 })
