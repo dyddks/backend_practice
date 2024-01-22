@@ -1,6 +1,8 @@
 const express = require('express')
 let cors = require('cors')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
 const connection = require('../server/config/db')
 const app = express()
 const PORT = 4000
@@ -8,6 +10,7 @@ const PORT = 4000
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
+app.use(cookieParser())
 
 // 게시글 목록 조회
 app.get('/boardList', (req, res) => {
@@ -98,9 +101,54 @@ app.post('/user/login', (req, res) => {
   let sql = `select * from user where email='${email}' and password='${password}'`
   
   connection.query(sql, (err, result) => {
-    if(err) throw err;
-    res.send(result);
+    if (err) throw err;
+    try {
+      // access Token 발급
+      const accessToken = jwt.sign({
+        id: result[0].userId,
+        userName: result[0].userName,
+        email: result[0].email,
+        phone: result[0].phone,
+      }, 'accesssecret', {expiresIn: '24h', issuer: 'YongAhn'})
+
+      // refresh Token 발급
+      const refreshToken = jwt.sign({
+        id: result[0].userId,
+        userName: result[0].userName,
+        email: result[0].email,
+        phone: result[0].phone,
+      }, 'refreshsecret', {expiresIn: '24h', issuer: 'YongAhn'})
+
+      // token 전송
+      res.cookie('accessToken', accessToken, {
+        secure: false,
+        httpOnly: true,
+      })
+
+      res.cookie('refreshToken', refreshToken, {
+        secure: false,
+        httpOnly: true,
+      })
+
+      res.status(200).json('login success')
+    } catch (error) {
+      res.status(500).json(error)
+    }
   })
+})
+
+app.get('/user/accessToken', (req, res) => {
+  try {
+    const token = req.cookies.accessToken;
+    const data = jwt.verify(token, 'accesssecret');
+    let sql = `select * from user where email='${data.email}'`
+    connection.query(sql, (err, result) => {
+      if (err) throw err;
+      res.status(200).json(result[0])
+    })
+  } catch (error) {
+    res.status(500).json(error)
+  }
 })
 
 // 회원탈퇴
