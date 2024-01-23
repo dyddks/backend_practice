@@ -109,7 +109,7 @@ app.post('/user/login', (req, res) => {
         userName: result[0].userName,
         email: result[0].email,
         phone: result[0].phone,
-      }, 'accesssecret', {expiresIn: '24h', issuer: 'YongAhn'})
+      }, 'accesssecret', {expiresIn: '1m', issuer: 'YongAhn'})
 
       // refresh Token 발급
       const refreshToken = jwt.sign({
@@ -142,9 +142,38 @@ app.get('/user/accessToken', (req, res) => {
     const token = req.cookies.accessToken;
     const data = jwt.verify(token, 'accesssecret');
     let sql = `select * from user where email='${data.email}'`
+
     connection.query(sql, (err, result) => {
       if (err) throw err;
       res.status(200).json(result[0])
+    })
+  } catch (error) {
+    res.status(500).json(error)
+  }
+})
+
+app.get('/user/refreshToken', (req, res) => {
+  try {
+    const token = req.cookies.refreshToken;
+    const data = jwt.verify(token, 'refreshsecret');
+    let sql = `select * from user where email='${data.email}'`
+
+    connection.query(sql, (err, result) => {
+      if (err) throw err;
+
+      const accessToken = jwt.sign({
+        id: result[0].userId,
+        userName: result[0].userName,
+        email: result[0].email,
+        phone: result[0].phone,
+      }, 'accesssecret', {expiresIn: '1m', issuer: 'YongAhn'})
+
+      res.cookie('accessToken', accessToken, {
+        secure: false,
+        httpOnly: true,
+      })
+
+      res.status(200).json('Access Token Recreated')
     })
   } catch (error) {
     res.status(500).json(error)
