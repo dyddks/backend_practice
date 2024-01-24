@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
+import axios from 'axios';
 
 const Container = styled.div`
   display: flex;
@@ -17,6 +18,26 @@ const Hr = styled.hr`
 export const MainPage = () => {
   const nav = useNavigate();
 
+  const accessToken = () => {
+    axios.get('/user/accessToken')
+    .then((result) => {
+      console.log(result)
+    })
+    .catch((err) => {
+      
+    })
+  }
+
+  const refreshToken = () => {
+    axios.get('/user/refreshToken')
+    .then((result) => {
+      console.log(result)
+    })
+    .catch((err) => {
+      
+    })
+  }
+
   return (
     <Container>
       <h1>Main</h1>
@@ -26,6 +47,8 @@ export const MainPage = () => {
       <button onClick={() => {nav('/unregister')}}>회원탈퇴</button>
       <button onClick={() => {nav('/board')}}>게시판</button>
       <button onClick={() => {nav('/user/mypage')}}>마이페이지</button>
+      <div onClick={accessToken}>Access Token</div>
+      <div onClick={refreshToken}>Refresh Token</div>
     </Container>
   );
 }
