@@ -28,10 +28,12 @@ export const Login = () => {
       password: pw
     })
     .then((result) => {
-      alert(`${result.data[0].userName}님 환영합니다.`)
+      if (result.status === 200) {
+        alert(`${result.data}`)
+      }
     })
-    .catch((err) => {
-      alert('잠시후 다시 시도해주세요.')
+    .catch((error) => {
+      alert('이메일이나 비밀번호가 일치하지 않습니다.')
     })
   }
 
