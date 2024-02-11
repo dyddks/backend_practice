@@ -137,11 +137,11 @@ app.post('/user/login', (req, res) => {
   })
 })
 
-app.get('/user/accessToken', (req, res) => {
+app.get('/user/info', (req, res) => {
   try {
     const token = req.cookies.accessToken;
     const data = jwt.verify(token, 'accesssecret');
-    let sql = `select * from user where email='${data.email}'`
+    let sql = `select * from user where userId='${data.id}'`
 
     connection.query(sql, (err, result) => {
       if (err) throw err;
